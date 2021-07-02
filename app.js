@@ -23,13 +23,14 @@ app.get('/', (req, res) => {
 app.get('/application/*', function (req, res) {
    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+app.get('/logo', function (req, res) {
+   res.sendFile(path.join(__dirname, 'images', 'logo.jpg'));
+});
 
 app.use(
   "/assets",
   express.static(path.join(__dirname, "assets"))
 );
-
-
 app.use('/web', (req, res, next) => {
    res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'");
    next();
