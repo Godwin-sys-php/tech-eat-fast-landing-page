@@ -17,12 +17,12 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, "html", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.use(
   "/assets",
-  express.static(path.join(__dirname, "html", "assets"))
+  express.static(path.join(__dirname, "assets"))
 );
 
 module.exports = app;
