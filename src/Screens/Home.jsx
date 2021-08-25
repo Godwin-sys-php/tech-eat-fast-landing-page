@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import Navbar from "../Components/Navbar";
-import hero from "../Images/hero.jpg";
 import { StickyContainer, Sticky } from "react-sticky";
 import MenusList from "../Components/MenuList";
 import Dish from "../Components/Dish";
@@ -109,7 +108,7 @@ class Home extends React.Component {
           <div className="container">
             <img
               alt="Logo tech'eat fast"
-              src={hero}
+              src={"/assets/hero.jpg"}
               width="250"
               className="d-inline-block align-top"
             />
@@ -143,7 +142,7 @@ class Home extends React.Component {
           <div className="container">
             <img
               alt="Logo tech'eat fast"
-              src={hero}
+              src={"/assets/hero.jpg"}
               width="500"
               className="d-inline-block align-top"
             />
@@ -168,7 +167,7 @@ class Home extends React.Component {
           <div className="container">
             <img
               alt="Logo tech'eat fast"
-              src={hero}
+              src={"/assets/hero.jpg"}
               width="500"
               className="d-inline-block align-top"
             />

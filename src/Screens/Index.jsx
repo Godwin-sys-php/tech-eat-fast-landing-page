@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import hero from '../Images/hero.jpg';
 import { getWithMenuFromSlug } from '../Services/Restaurant';
 import {DELETE_ALL_ITEM_ACTION_IN_RESTAURANT, DELETE_ALL_DATA, ADD_DATA} from '../Stores/Reducers/Actions';
 
@@ -43,7 +42,7 @@ class Index extends React.Component {
               type: ADD_DATA,
               payload: {...data.result, tableId: this.$_GET("tableId")}
             });
-            this.props.history.push('/home')
+            this.props.history.push('/application/home')
           } else {
             this.setState({ badQrCode: true, isLoading: false, });
           }
@@ -63,7 +62,7 @@ class Index extends React.Component {
           <div className="container">
             <img
               alt="Logo tech'eat fast"
-              src={hero}
+              src={"/assets/hero.jpg"}
               width="500"
               className="d-inline-block align-top"
             />
@@ -78,7 +77,7 @@ class Index extends React.Component {
           <div className="container">
             <img
               alt="Logo tech'eat fast"
-              src={hero}
+              src={"/assets/hero.jpg"}
               width="500"
               className="d-inline-block align-top"
             />

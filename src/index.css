@@ -1,5 +1,5 @@
 .navbar-brand > .navbar-item {
-  background: url(./Images/icon.png) no-repeat center center;
+  background: url("https://techeatfast.com/assets/icon.png") no-repeat center center;
   background-size: cover;
   width: 80px;
 }
