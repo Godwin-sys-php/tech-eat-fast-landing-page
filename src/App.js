@@ -15,8 +15,8 @@ function App() {
     <Provider store={Store}>
       <Router>
         <Switch>
-          <Route exact path='/inRestaurant/:slug' component={Index} />
-          <Route exact path='/home' component={Home} />
+          <Route exact path='/application/inRestaurant/:slug' component={Index} />
+          <Route exact path='/application/home' component={Home} />
 
         </Switch>
       </Router>
