@@ -30,10 +30,10 @@ class Home extends React.Component {
       return "Sûre de vouloir quitter";
     };
     if (this.props.data === null || this.props.data === undefined) {
-      this.setState({ splash: false, badGateAway: true, isLoading: false });
+      this.setState({ splash: false, badGateAway: true, isLoading: false, error: true, });
     } else {
       this.indexOfDishes = this.props.data.menus[0].dishes;
-      this.setState({ splash: false, badGateAway: false, isLoading: false });
+      this.setState({ splash: true, badGateAway: false, isLoading: false });
     }
   }
 
@@ -277,7 +277,7 @@ class Home extends React.Component {
                 className="iconify"
                 data-icon="fa-solid:shopping-cart"
               ></span>
-              &nbsp;&nbsp;Panier et passer la commande
+              &nbsp;&nbsp;Panier & Passer la commande ({this.props.cartItems.length} éléments)
             </div>
           ) : null}
         </>

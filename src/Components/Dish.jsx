@@ -8,7 +8,7 @@ const Dish = ({ dish, onClick }) => {
           width: "50%",
           backgroundImage: `url("${dish.imageUrl}")`,
           backgroundRepeat: 'no-repeat',
-          backgroundSize: "cover",
+          backgroundSize: "contain",
           backgroundPosition: "center",
           borderRadius: 30
         }}

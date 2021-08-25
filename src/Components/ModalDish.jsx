@@ -12,10 +12,11 @@ class ModalDish extends React.Component {
     this.state = {
       isLoading: true,
       error: false,
-      data: null,
+      data: {},
       quantity: 1,
       option: "Scum",
       optionId: null,
+      needOption: false,
     };
   }
 
@@ -105,6 +106,12 @@ class ModalDish extends React.Component {
           </span>
           <br />
           <em>{this.state.data.description}</em>
+          {!this.state.data.available ? (<>
+              <div className="notification is-danger" style={{ width: "100%" }}>
+                Ce produit est indisponible
+              </div>
+            </>
+          ) : null}
           {this.state.data.options.length > 0 && this.state.data.options ? (
             <>
               <br />
@@ -164,13 +171,23 @@ class ModalDish extends React.Component {
               </span>
             </button>
           </div>
-          <button
-            className="button is-fullwidth"
-            style={{ backgroundColor: "#28a745", color: "white" }}
-            onClick={this._addInCart}
-          >
-            Ajouter au panier
-          </button>
+          {this.state.data.available ? (
+            <button
+              className="button is-fullwidth"
+              style={{ backgroundColor: "#28a745", color: "white" }}
+              onClick={this._addInCart}
+            >
+              Ajouter au panier
+            </button>
+          ) : (
+            <button
+              className="button is-fullwidth"
+              style={{ backgroundColor: "#28a745", color: "white" }}
+              disabled
+            >
+              Ajouter au panier
+            </button>
+          )}
           <div className="center">
             <span className="title is-3">
               Total:{" "}
@@ -181,6 +198,11 @@ class ModalDish extends React.Component {
               $
             </span>
           </div>
+          {this.state.needOption ? (
+            <div className="notification is-danger">
+              Choisissez une option !
+            </div>
+          ) : null}
         </div>
       );
     }
@@ -189,41 +211,47 @@ class ModalDish extends React.Component {
   _addInCart = (event) => {
     event.preventDefault();
 
-    let addNew = true;
-    let capture = null;
-    for (let index in this.props.cart) {
-      if (
-        this.props.cart[index].idDish == this.props.id &&
-        this.props.cart[index].idOption == this.state.optionId
-      ) {
-        addNew = false;
-        capture = index;
-      }
-    }
-
-    if (addNew) {
-      this.props.dispatch({
-        type: ADD_ITEM_ACTION_IN_RESTAURANT,
-        payload: {
-          idDish: this.props.id,
-          quantity: this.state.quantity,
-          idOption: this.state.optionId,
-          info: this.state.data,
-          optionInfo: this.state.data.options[this.state.option],
-        },
-      });
+    if (this.state.data.needOption && this.state.option === "Scum") {
+      this.setState({ needOption: true });
     } else {
-      let newState = this.props.cart;
-      newState[capture] = {
-        ...newState[capture],
-        info: this.state.data,
-        quantity: this.state.quantity + newState[capture].quantity,
-        optionInfo: this.state.data.options[this.state.option],
-      };
-      this.props.dispatch({
-        type: UPDATE_ITEM_ACTION_IN_RESTAURANT,
-        payload: newState,
-      });
+      let addNew = true;
+      let capture = null;
+      for (let index in this.props.cart) {
+        if (
+          this.props.cart[index].idDish == this.props.id &&
+          this.props.cart[index].idOption == this.state.optionId
+        ) {
+          addNew = false;
+          capture = index;
+        }
+      }
+
+      if (addNew) {
+        this.props.dispatch({
+          type: ADD_ITEM_ACTION_IN_RESTAURANT,
+          payload: {
+            idDish: this.props.id,
+            quantity: this.state.quantity,
+            idOption: this.state.optionId,
+            info: this.state.data,
+            optionInfo: this.state.data.options[this.state.option],
+          },
+        });
+        this.props.close();
+      } else {
+        let newState = this.props.cart;
+        newState[capture] = {
+          ...newState[capture],
+          info: this.state.data,
+          quantity: this.state.quantity + newState[capture].quantity,
+          optionInfo: this.state.data.options[this.state.option],
+        };
+        this.props.dispatch({
+          type: UPDATE_ITEM_ACTION_IN_RESTAURANT,
+          payload: newState,
+        });
+        this.props.close();
+      }
     }
   };
 
@@ -247,13 +275,23 @@ class ModalDish extends React.Component {
             className="modal-card-foot"
             style={{ justifyContent: "right" }}
           >
-            <button
-              className="button"
-              style={{ backgroundColor: "#28a745", color: "white" }}
-              onClick={this._addInCart}
-            >
-              Ajouter au panier
-            </button>
+            {this.state.data.available ? (
+              <button
+                className="button"
+                style={{ backgroundColor: "#28a745", color: "white" }}
+                onClick={this._addInCart}
+              >
+                Ajouter au panier
+              </button>
+            ) : (
+              <button
+                className="button"
+                style={{ backgroundColor: "#28a745", color: "white" }}
+                disabled
+              >
+                Ajouter au panier
+              </button>
+            )}
             <button
               className="button is-danger"
               onClick={() => this.props.close()}
