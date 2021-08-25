@@ -1,0 +1,38 @@
+.navbar-brand > .navbar-item {
+  background: url(./Images/icon.png) no-repeat center center;
+  background-size: cover;
+  width: 80px;
+}
+
+.center {
+  text-align: center;
+  justify-content: center;
+}
+
+.left {
+  text-align: left;
+  justify-content: left;
+}
+
+.btn-cart {
+  background-color: tomato;
+  color: white;
+  padding: 5%;
+  font-size: 110%;
+  position: sticky;
+  bottom: 0;
+  text-align: center;
+  cursor: pointer;
+  position: -webkit-sticky;
+}
+
+.custom-header {
+  overflow: hidden;
+  background-color: #ececf2;
+  position: relative;
+  top: 0;
+  width: 100%;
+  font-size: 150%;
+  display: flex;
+  justify-content: space-between;
+}
