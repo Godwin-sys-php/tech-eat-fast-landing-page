@@ -5,7 +5,14 @@ class MenusList extends React.Component {
     super(props);
     this.state = {
       selectedItem: this.props.selectedItem,
+      searchText: this.props.valueSearch,
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.valueSearch !== this.props.valueSearch) {
+      this.setState({ searchText: this.props.valueSearch });
+    }
   }
 
   _onClick = (index) => {
@@ -38,15 +45,33 @@ class MenusList extends React.Component {
     return arr;
   };
 
+  _onClear = () => {
+    this.props.handleSearchText("");
+  }
+
   render() {
     const menus = this.props.menus;
     return (
-      <div style={{...Styles.bigContainer, ...this.props.style}}>
-        {menus.length > 0 ? (
-          this._displayMenus()
-        ) : (
-          <em style={Styles.em}>Aucun menus</em>
-        )}
+      <div style={{ ...this.props.style }}>
+        <p class="control has-icons-left has-icons-right">
+          <input
+            class="input is-large"
+            type="search"
+            placeholder="Rechercher..."
+            name="query"
+            onChange={(event) => { this.props.handleSearchText(event.target.value) }}
+          />
+          <span class="icon is-small is-left">
+            <span class="iconify" data-icon="fe:search"></span>
+          </span>
+        </p>
+        {this.state.searchText.length > 0 ? null : <div style={{ ...Styles.bigContainer }}>
+          {menus.length > 0 ? (
+            this._displayMenus()
+          ) : (
+            <em style={Styles.em}>Aucun menus</em>
+          )}
+        </div>}
       </div>
     );
   }

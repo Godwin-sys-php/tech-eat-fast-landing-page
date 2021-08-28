@@ -19,6 +19,9 @@ class Home extends React.Component {
       addInCartMode: false,
       displayCartMode: false,
       placeOrderMode: false,
+      searchText: "",
+      itemsForSearch: "",
+      info: [],
     };
     this.indexOfDishes = 0;
 
@@ -33,9 +36,34 @@ class Home extends React.Component {
       this.setState({ splash: false, badGateAway: true, isLoading: false, error: true, });
     } else {
       this.indexOfDishes = this.props.data.menus[0].dishes;
-      this.setState({ splash: true, badGateAway: false, isLoading: false });
+      this.setState({ splash: true, badGateAway: false, isLoading: false, info: this.props.data });
     }
   }
+
+  _handleSearchText = (value) => {
+    if (value.length > 0) {
+      this.setState({ searchText: value }, () => {
+        let names = [];
+        for (let i in this.state.info.menus) {
+          for (let index in this.state.info.menus[i].dishes) {
+            names.push(this.state.info.menus[i].dishes[index]);
+          }
+        }
+        let term = this.state.searchText; // search term (regex pattern)
+        let search = new RegExp(term, "i"); // prepare a regex object
+        let b = names.filter((item) => search.test(item.name));
+        this.setState({ itemsForSearch: b });
+      });
+    } else {
+      this.indexOfDishes = this.state.info.menus[this.state.indexOfMenu].dishes;
+      this.setState({ searchText: value, itemsForSearch: [] });
+    }
+  };
+
+  _onChange = (menu) => {
+    this.indexOfDishes = this.props.data.menus[menu].dishes;
+    this.setState({ indexOfMenu: menu });
+  };
 
   _closeSplash = (event) => {
     event.preventDefault();
@@ -54,12 +82,29 @@ class Home extends React.Component {
 
   _getItems = () => {
     let arr = [];
-    for (let index in this.indexOfDishes) {
-      arr.push(
-        <Dish dish={this.indexOfDishes[index]} onClick={this._onDishPress} />
-      );
+    if (this.state.searchText.length > 0) {
+      if (this.state.itemsForSearch.length > 0) {
+        for (let index in this.state.itemsForSearch) {
+          arr.push(
+            <Dish dish={this.state.itemsForSearch[index]} onClick={this._onDishPress} />
+          );
+        }
+        return arr;
+      } else {
+        return (
+          <div className="center">
+            <em>Aucun résultat à votre recherche</em>
+          </div>
+        )
+      }
+    } else {
+      for (let index in this.indexOfDishes) {
+        arr.push(
+          <Dish dish={this.indexOfDishes[index]} onClick={this._onDishPress} />
+        );
+      }
+      return arr;
     }
-    return arr;
   };
 
   _close = () => {
@@ -254,6 +299,8 @@ class Home extends React.Component {
                       menus={menus}
                       selectedItem={this.state.indexOfMenu}
                       onChange={this._onChange}
+                      handleSearchText={this._handleSearchText}
+                      valueSearch={this.state.searchText}
                     />
                   ) : (
                     <span></span>
