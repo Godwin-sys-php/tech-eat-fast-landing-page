@@ -7,6 +7,7 @@ import Dish from "../Components/Dish";
 import DishForCart from "../Components/DishForCart";
 import ModalDish from "../Components/ModalDish";
 import ModalCommand from "../Components/ModalCommand";
+import ModalFeedBack from "../Components/ModalFeedBack";
 
 class Home extends React.Component {
   constructor(props) {
@@ -16,9 +17,12 @@ class Home extends React.Component {
       badGateAway: false,
       isLoading: true,
       indexOfMenu: 0,
+
       addInCartMode: false,
       displayCartMode: false,
       placeOrderMode: false,
+      feedBackMode: false,
+
       searchText: "",
       itemsForSearch: "",
       info: [],
@@ -108,7 +112,7 @@ class Home extends React.Component {
   };
 
   _close = () => {
-    this.setState({ addInCartMode: false, placeOrderMode: false, });
+    this.setState({ addInCartMode: false, placeOrderMode: false, feedBackMode: false, });
   };
 
   _displayCartElements = () => {
@@ -301,6 +305,9 @@ class Home extends React.Component {
                       onChange={this._onChange}
                       handleSearchText={this._handleSearchText}
                       valueSearch={this.state.searchText}
+                      onFeedBackPress={() => {
+                        this.setState({ feedBackMode: true, });
+                      }}
                     />
                   ) : (
                     <span></span>
@@ -309,6 +316,9 @@ class Home extends React.Component {
               </Sticky>
               {this.state.addInCartMode ? (
                 <ModalDish id={this.idOfDishInCart} close={this._close} />
+              ) : null}
+              {this.state.feedBackMode ? (
+                <ModalFeedBack close={this._close} />
               ) : null}
               <div className="left">{this._getItems()}</div>
             </StickyContainer>

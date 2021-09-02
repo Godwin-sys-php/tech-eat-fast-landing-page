@@ -23,6 +23,14 @@ class MenusList extends React.Component {
 
   _displayMenus = (item, index) => {
     let arr = [];
+    arr.push(
+      <div
+        style={Styles.containerFeedBack}
+        onClick={this.props.onFeedBackPress}
+      >
+        <h2 style={Styles.textSelected}>Feedback</h2>
+      </div>
+    );
     for (let index in this.props.menus) {
       const item = this.props.menus[index];
       if (index == this.state.selectedItem) {
@@ -47,7 +55,7 @@ class MenusList extends React.Component {
 
   _onClear = () => {
     this.props.handleSearchText("");
-  }
+  };
 
   render() {
     const menus = this.props.menus;
@@ -59,19 +67,23 @@ class MenusList extends React.Component {
             type="search"
             placeholder="Rechercher..."
             name="query"
-            onChange={(event) => { this.props.handleSearchText(event.target.value) }}
+            onChange={(event) => {
+              this.props.handleSearchText(event.target.value);
+            }}
           />
           <span class="icon is-small is-left">
             <span class="iconify" data-icon="fe:search"></span>
           </span>
         </p>
-        {this.state.searchText.length > 0 ? null : <div style={{ ...Styles.bigContainer }}>
-          {menus.length > 0 ? (
-            this._displayMenus()
-          ) : (
-            <em style={Styles.em}>Aucun menus</em>
-          )}
-        </div>}
+        {this.state.searchText.length > 0 ? null : (
+          <div style={{ ...Styles.bigContainer }}>
+            {menus.length > 0 ? (
+              this._displayMenus()
+            ) : (
+              <em style={Styles.em}>Aucun menus</em>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -93,6 +105,16 @@ const Styles = {
     padding: 12.5,
     marginLeft: 15,
     borderRadius: 12.5,
+    whiteSpace: "nowrap",
+    cursor: "pointer",
+  },
+  containerFeedBack: {
+    backgroundColor: "#007bff",
+    padding: 12.5,
+    marginLeft: 50,
+    borderRadius: 12.5,
+    display: "flex",
+    flexDirection: "row",
     whiteSpace: "nowrap",
     cursor: "pointer",
   },
